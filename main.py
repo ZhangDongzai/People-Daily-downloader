@@ -14,10 +14,12 @@ def main():
     download_with_idm(file_url)
 
 
-def get_date() -> str:
+def get_date(mode: int = 0) -> str:
     date = datetime.now()
     month = str(date.month) if date.month >= 10 else f"0{date.month}"
     day = str(date.day) if date.day >= 10 else f"0{date.day}"
+    if mode == 1:
+        return f"{date.year}-{month}-{day}"
     return f"{date.year}{month}/{day}/"
 
 
@@ -40,11 +42,13 @@ def get_file_url(url: str) -> str:
 
 
 def download_with_idm(url):
-    command = [IDM_PATH, '/d', url]
-    try:
-        run(command, check=True)
-    except CalledProcessError as error:
-        print(f"Download Error: {error}")
+    # # Use IDM to download
+    # command = [IDM_PATH, '/d', url]
+    # try:
+    #     run(command, check=True)
+    # except CalledProcessError as error:
+    #     print(f"Download Error: {error}")
+    open(f"./{get_date(mode=1)}.pdf", "wb").write(get(url).content)
 
 
 if __name__ == "__main__" :
